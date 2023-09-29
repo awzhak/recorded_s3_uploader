@@ -115,10 +115,10 @@ def input_yes_no() -> bool:
 
 if __name__ == "__main__":
     commands = [
-        '1: check_disk_free_space',
-        '2: search recorded',
-        '3: upload recorded',
-        '4: delete recorded'
+        '1: Check disk free space',
+        '2: Search recorded',
+        '3: Upload recorded',
+        '4: Delete recorded',
     ]
     command = input('Select a command\n' + '\n'.join(commands) + '\n')
     load_dotenv()
@@ -131,7 +131,7 @@ if __name__ == "__main__":
             print(f'{path} {RecordedHandler.get_file_size(path)} GB')
 
     elif command == '3':
-        prefix = input('S3 prefix ex:2022Q3/Engage_Kiss/ : ')
+        prefix = input('S3 prefix ex:2022Q3/Engage Kiss/ : ')
         title = input('title: ')
         s3 = S3()
         for path in RecordedHandler.search(title):
@@ -147,4 +147,4 @@ if __name__ == "__main__":
             RecordedHandler.delete_local_recorded(delete_file_paths)
 
     else:
-        print(f'this command not exist. {command}')
+        print(f'This command not exist. {command}')
