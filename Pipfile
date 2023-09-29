@@ -13,6 +13,8 @@ tqdm = "*"
 [dev-packages]
 mypy = "*"
 boto3-stubs = {extras = ["essential"], version = "*"}
+types-tqdm = "*"
+types-psutil = "*"
 
 [requires]
 python_version = "3.11"

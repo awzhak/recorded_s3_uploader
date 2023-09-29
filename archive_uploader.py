@@ -3,8 +3,8 @@ from typing import Generator, List
 import os
 import re
 from pathlib import Path
-from dotenv import load_dotenv
 from tqdm import tqdm
+from dotenv import load_dotenv
 import mojimoji
 import psutil
 import boto3
@@ -22,6 +22,7 @@ RECORDED_PATHS = [
 
 KB = 1024
 MB = KB * KB
+
 
 class S3:
     """S3 Client."""
@@ -53,8 +54,10 @@ class S3:
             self.client.upload_file(
                 upload_file_path,
                 self.bucket_name,
-                str(os.path.join(prefix, os.path.basename(upload_file_path))).replace('\\', '/'),
-                Callback=lambda bytes_transferred: progress.update(bytes_transferred),
+                str(os.path.join(prefix, os.path.basename(
+                    upload_file_path))).replace('\\', '/'),
+                Callback=lambda bytes_transferred: progress.update(
+                    bytes_transferred),
                 Config=config,
                 ExtraArgs=extra_args,
             )
@@ -100,12 +103,15 @@ class RecordedHandler:
         for file_path in file_paths:
             os.remove(file_path)
 
-def input_yes_no():
+
+def input_yes_no() -> bool:
+    """yes No input."""
     inp = input('y/N: ')
     if inp == 'y':
         return True
     else:
         return False
+
 
 if __name__ == "__main__":
     commands = [
@@ -119,21 +125,26 @@ if __name__ == "__main__":
 
     if command == '1':
         RecordedHandler.check_disk_free_space()
+
     elif command == '2':
         for path in RecordedHandler.search(input('title: ')):
             print(f'{path} {RecordedHandler.get_file_size(path)} GB')
+
     elif command == '3':
         prefix = input('S3 prefix ex:2022Q3/Engage_Kiss/ : ')
         title = input('title: ')
         s3 = S3()
         for path in RecordedHandler.search(title):
             s3.upload_file(path, prefix)
+
     elif command == '4':
         title = input('title: ')
         delete_file_paths = [path for path in RecordedHandler.search(title)]
         newline = '\n'
-        print(f"Are you sure you want to delete this?\n{newline.join(delete_file_paths)}")
+        print(
+            f'Are you sure you want to delete this?\n{newline.join(delete_file_paths)}')
         if input_yes_no():
             RecordedHandler.delete_local_recorded(delete_file_paths)
+
     else:
         print(f'this command not exist. {command}')
