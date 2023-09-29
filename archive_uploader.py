@@ -45,7 +45,7 @@ class S3:
         """
         config = TransferConfig(
             max_concurrency=20,
-            multipart_chunksize=25 * MB
+            multipart_chunksize=30 * MB,
         )
         extra_args = {
             'StorageClass': 'DEEP_ARCHIVE'
