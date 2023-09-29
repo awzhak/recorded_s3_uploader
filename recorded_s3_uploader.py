@@ -106,11 +106,7 @@ class RecordedHandler:
 
 def input_yes_no() -> bool:
     """yes No input."""
-    inp = input('y/N: ')
-    if inp == 'y':
-        return True
-    else:
-        return False
+    return bool(input('y/N: ') == 'y')
 
 
 if __name__ == "__main__":
