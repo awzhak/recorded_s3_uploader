@@ -104,11 +104,6 @@ class RecordedHandler:
             os.remove(file_path)
 
 
-def input_yes_no() -> bool:
-    """yes No input."""
-    return bool(input('y/N: ') == 'y')
-
-
 if __name__ == "__main__":
     commands = [
         '1: Check disk free space',
@@ -127,19 +122,19 @@ if __name__ == "__main__":
             print(f'{path} {RecordedHandler.get_file_size(path)} GB')
 
     elif command == '3':
-        prefix = input('S3 prefix ex:2022Q3/Engage Kiss/ : ')
         title = input('title: ')
+        upload_file_paths = [path for path in RecordedHandler.search(title)]
+        print('\n'.join(upload_file_paths))
+        prefix = input('S3 prefix ex:2022Q3/Engage Kiss/: ')
         s3 = S3()
-        for path in RecordedHandler.search(title):
+        for path in upload_file_paths:
             s3.upload_file(path, prefix)
 
     elif command == '4':
         title = input('title: ')
         delete_file_paths = [path for path in RecordedHandler.search(title)]
-        newline = '\n'
-        print(
-            f'Are you sure you want to delete this?\n{newline.join(delete_file_paths)}')
-        if input_yes_no():
+        print('\n'.join(delete_file_paths))
+        if input('Are you sure you want to delete this? y/N: ') == 'y':
             RecordedHandler.delete_local_recorded(delete_file_paths)
 
     else:
