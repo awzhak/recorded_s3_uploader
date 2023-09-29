@@ -44,8 +44,8 @@ class S3:
             prefix (str): S3 key prefix
         """
         config = TransferConfig(
-            max_concurrency=20,
-            multipart_chunksize=30 * MB,
+            max_concurrency=50,
+            multipart_chunksize=8 * MB,
         )
         extra_args = {
             'StorageClass': 'DEEP_ARCHIVE'
